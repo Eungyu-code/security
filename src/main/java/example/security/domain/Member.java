@@ -1,41 +1,45 @@
 package example.security.domain;
 
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 public class Member {
 
     @Id
     @GeneratedValue
-    @Column(name = "member_id")
     private Long id;
 
-    private String nickname;
+    private String name;
 
-    @Column(unique = true)
-    private String mail;
+    private String account;
 
     private String password;
 
-    private String role;
+    private LocalDateTime lastAccessDt;
 
-    @Embedded
-    private Address address;
+    private LocalDateTime regDt;
 
-    public void create(String nickname, String mail, String password, Address address) {
+    protected Member() {
 
-        this.mail = mail;
-        this.nickname = nickname;
+    }
+
+    public void create(String name, String account, String password) {
+        this.name = name;
+        this.account = account;
         this.password = password;
-        this.address = address;
     }
 
-    public void encodePassword(PasswordEncoder passwordEncoder) {
-
-        this.password = passwordEncoder.encode(this.password);
-    }
 }

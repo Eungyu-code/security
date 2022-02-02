@@ -1,7 +1,6 @@
 package example.security.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
 @Setter
@@ -21,25 +21,15 @@ public class Member {
     @Id
     @GeneratedValue
     private Long id;
-
-    private String name;
-
-    private String account;
-
+    private String username;
     private String password;
 
-    private LocalDateTime lastAccessDt;
-
-    private LocalDateTime regDt;
-
-    protected Member() {
-
-    }
-
-    public void create(String name, String account, String password) {
-        this.name = name;
-        this.account = account;
+    @Builder
+    public Member(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
         this.password = password;
     }
+
 
 }

@@ -18,9 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     private final MemberService memberService;
 
@@ -38,27 +36,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/member/**").authenticated()
-                .antMatchers("/admin/**").authenticated()
-                .antMatchers("/**").permitAll();
-
-        http.formLogin()
-                .loginPage("/login")
+                .antMatchers("/**").permitAll()
+                .and()
+            .formLogin()
+                .loginPage("/member/login")
                 .defaultSuccessUrl("/")
-                .permitAll();
-
-        http.logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login")
-                .invalidateHttpSession(true);
-
-        http.exceptionHandling()
-                .accessDeniedPage("/accessDenied");
+                .permitAll()
+                .and()
+            .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .and()
+                .exceptionHandling();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
         auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
     }
 }

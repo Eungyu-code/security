@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>My INFORMATION</title>
+</head>
+<body>
+
+<h1>내 정보</h1>
+<hr>
+<span sec:authentication="name">님 반갑습니다</span>
+<div sec:authentication="principal.authorities"></div>
+
+<a th:href="@{/}">HOME</a>
+</body>
+</html>
